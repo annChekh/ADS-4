@@ -1,66 +1,93 @@
 // Copyright 2021 NNTU-CS
 #include <cstdint>
+#include <algorithm> 
 int countPairs1(int *arr, int len, int value) {
     int count = 0;
-    for (int i = 0; i < len; i++) {
-        for (int j = i + 1; j < len; j++) {
-            if (arr[i] + arr[j] == value) count++;
+    for (int a = 0; a < len; a++) {
+        for (int b = a + 1; b < len; b++) {
+            if (arr[a] + arr[b] == value) count++;
         }
     }
     return count;
 }
 
 int countPairs2(int *arr, int len, int value) {
+    std::sort(arr, arr + len); // Сортируем массив
     int count = 0;
-    int left = 0;
-    int right = len - 1;
+    int lEl = 0;
+    int rEl = len - 1;
 
-    while (left < right) {
-        int sum = arr[left] + arr[right];
-        if (sum == value) {
-            if (arr[left] == arr[right]) {
-                int n = right - left + 1;
+    while (lEl < rEl) {
+        int summa = arr[lEl] + arr[rEl];
+        if (summa == value) {
+            if (arr[lEl] == arr[rEl]) {
+                int n = rEl - lEl + 1;
                 count += n * (n - 1) / 2;
                 break;
             }
-            int left_val = arr[left];
-            int right_val = arr[right];
-            int left_count = 1;
-            int right_count = 1;
 
-            while (left + left_count < len && arr[left + left_count] == left_val) {
-                left_count++;
+            int lElCount = 1;
+            int rElCount = 1;
+
+            while (lEl + lElCount < len && arr[lEl + lElCount] == arr[lEl]) {
+                lElCount++;
             }
-            while (right - right_count >= 0 && arr[right - right_count] == right_val) {
-                right_count++;
+
+            while (rEl - rElCount >= 0 && arr[rEl - rElCount] == arr[rEl]) {
+                rElCount++;
             }
-            count += left_count * right_count;
-            left += left_count;
-            right -= right_count;
-        } 
-        else if (sum < value) left++;
-        else right--;
+
+            count += lElCount * rElCount;
+            lEl += lElCount;
+            rEl -= rElCount;
+        } else if (summa < value) {
+            lEl++;
+        } else {
+            rEl--;
+        }
     }
     return count;
 }
+
 int countPairs3(int *arr, int len, int value) {
+    std::sort(arr, arr + len);
     int count = 0;
-    for (int i = 0; i < len; i++) {
-        if (i > 0 && arr[i] == arr[i-1]) continue;        
-        int left = i + 1;
-        int right = len - 1;
-        int target = value - arr[i];
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            if (arr[mid] == target) {
+    int i = 0;
+
+    while (i < len) {
+        int x = value - arr[i];
+        int lEl = i + 1;
+        int rEl = len - 1;
+
+        while (lEl <= rEl) {
+            int mid = lEl + (rEl - lEl) / 2;
+            if (arr[mid] == x) {
                 count++;
-                for (int j = mid - 1; j >= left && arr[j] == target; j--) count++;
-                for (int j = mid + 1; j <= right && arr[j] == target; j++) count++;
+
+                int j = mid - 1;
+                while (j >= lEl && arr[j] == x) {
+                    count++;
+                    j--;
+                }
+
+                j = mid + 1;
+                while (j <= rEl && arr[j] == x) {
+                    count++;
+                    j++;
+                }
+
                 break;
+            } else if (arr[mid] < x) {
+                lEl = mid + 1;
+            } else {
+                rEl = mid - 1;
             }
-            else if (arr[mid] < target) left = mid + 1;
-            else right = mid - 1;
         }
+
+        int curr = arr[i];
+        do {
+            i++;
+        } while (i < len && arr[i] == curr);
     }
     return count;
 }
