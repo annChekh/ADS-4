@@ -14,14 +14,12 @@ int countPairs2(int *arr, int len, int value) {
     int count = 0;
     int left = 0;
     int right = len - 1;
-
     while (left < right) {
         int sum = arr[left] + arr[right];
         if (sum == value) {
             count++;
             left++;
             right--;
-            // Пропускаем дубликаты
             while (left < right && arr[left] == arr[left - 1]) left++;
             while (left < right && arr[right] == arr[right + 1]) right--;
         } else if (sum < value) {
@@ -33,41 +31,36 @@ int countPairs2(int *arr, int len, int value) {
     return count;
 }
 int countPairs3(int *arr, int len, int value) {
-    std::sort(arr, arr + len);
     int count = 0;
-    int i = 0;
-
-    while (i < len) {
+    for (int i = 0; i < len; i++) {
         int target = value - arr[i];
-        int lEl = i + 1;
-        int rEl = len - 1;
+        int left = i + 1;
+        int right = len - 1;
 
-        while (lEl <= rEl) {
-            int mid = lEl + (rEl - lEl) / 2;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
             if (arr[mid] == target) {
                 count++;
                 int j = mid - 1;
-                while (j >= lEl && arr[j] == target) {
+                while (j > i && arr[j] == target) {
                     count++;
                     j--;
                 }
                 j = mid + 1;
-                while (j <= rEl && arr[j] == target) {
+                while (j < len && arr[j] == target) {
                     count++;
                     j++;
                 }
-
                 break;
             } else if (arr[mid] < target) {
-                lEl = mid + 1;
+                left = mid + 1;
             } else {
-                rEl = mid - 1;
+                right = mid - 1;
             }
         }
-        int current = arr[i];
-        do {
+        while (i + 1 < len && arr[i] == arr[i + 1]) {
             i++;
-        } while (i < len && arr[i] == current);
+        }
     }
     return count;
 }
