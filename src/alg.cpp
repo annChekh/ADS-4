@@ -26,22 +26,22 @@ int countPairs2(int *arr, int len, int value) {
                 break;
             }
 
-            int current_lEl = arr[lEl];
-            int current_rEl = arr[rEl];
-            int lElCount = 0;
-            int rElCount = 0;
+            int curr_lEl = arr[lEl];
+            int curr_rEl = arr[rEl];
+            int lElCount = 1;
+            int rElCount = 1;
 
-            while (lEl < len && arr[lEl] == current_lEl) {
-                lEl++;
+            while (lEl + lElCount < len && arr[lEl + lElCount] == curr_lEl) {
                 lElCount++;
             }
 
-            while (rEl >= 0 && arr[rEl] == current_rEl) {
-                rEl--;
+            while (rEl - rElCount >= 0 && arr[rEl - rElCount] == curr_rEl) {
                 rElCount++;
             }
 
             count += lElCount * rElCount;
+            lEl += lElCount;
+            rEl -= rElCount;
         } else if (summa < value) {
             lEl++;
         } else {
@@ -85,10 +85,10 @@ int countPairs3(int *arr, int len, int value) {
             }
         }
 
-        int current = arr[i];
+        int curr = arr[i];
         do {
             i++;
-        } while (i < len && arr[i] == current);
+        } while (i < len && arr[i] == curr);
     }
     return count;
 }
