@@ -1,6 +1,6 @@
 // Copyright 2021 NNTU-CS
 #include <cstdint>
-#include <algorithm> 
+#include <algorithm>
 int countPairs1(int *arr, int len, int value) {
     int count = 0;
     for (int a = 0; a < len; a++) {
@@ -10,9 +10,8 @@ int countPairs1(int *arr, int len, int value) {
     }
     return count;
 }
-
 int countPairs2(int *arr, int len, int value) {
-    std::sort(arr, arr + len); // Сортируем массив
+    std::sort(arr, arr + len);
     int count = 0;
     int lEl = 0;
     int rEl = len - 1;
@@ -55,39 +54,36 @@ int countPairs3(int *arr, int len, int value) {
     int i = 0;
 
     while (i < len) {
-        int x = value - arr[i];
+        int target = value - arr[i];
         int lEl = i + 1;
         int rEl = len - 1;
 
         while (lEl <= rEl) {
             int mid = lEl + (rEl - lEl) / 2;
-            if (arr[mid] == x) {
+            if (arr[mid] == target) {
                 count++;
-
                 int j = mid - 1;
-                while (j >= lEl && arr[j] == x) {
+                while (j >= lEl && arr[j] == target) {
                     count++;
                     j--;
                 }
-
                 j = mid + 1;
-                while (j <= rEl && arr[j] == x) {
+                while (j <= rEl && arr[j] == target) {
                     count++;
                     j++;
                 }
 
                 break;
-            } else if (arr[mid] < x) {
+            } else if (arr[mid] < target) {
                 lEl = mid + 1;
             } else {
                 rEl = mid - 1;
             }
         }
-
-        int curr = arr[i];
+        int current = arr[i];
         do {
             i++;
-        } while (i < len && arr[i] == curr);
+        } while (i < len && arr[i] == current);
     }
     return count;
 }
