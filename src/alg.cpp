@@ -26,17 +26,17 @@ int countPairs2(int *arr, int len, int value) {
                 break;
             }
 
-            int left = arr[lEl];
-            int right = arr[rEl];
+            int current_lEl = arr[lEl];
+            int current_rEl = arr[rEl];
             int lElCount = 0;
             int rElCount = 0;
 
-            while (lEl < len && arr[lEl] == left) {
+            while (lEl < len && arr[lEl] == current_lEl) {
                 lEl++;
                 lElCount++;
             }
 
-            while (rEl >= 0 && arr[rEl] == right) {
+            while (rEl >= 0 && arr[rEl] == current_rEl) {
                 rEl--;
                 rElCount++;
             }
@@ -53,37 +53,42 @@ int countPairs2(int *arr, int len, int value) {
 
 int countPairs3(int *arr, int len, int value) {
     int count = 0;
+    int i = 0;
 
-    for (int i = 0; i < len; i++) {
-        if (i > 0 && arr[i] == arr[i-1]) continue;
+    while (i < len) {
+        int lEl = i + 1;
+        int rEl = len - 1;
+        int x = value - arr[i];
 
-        int left = i + 1;
-        int right = len - 1;
-
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            if (arr[mid] == value - arr[i]) {
+        while (lEl <= rEl) {
+            int mid = lEl + (rEl - lEl) / 2;
+            if (arr[mid] == x) {
                 count++;
 
                 int j = mid - 1;
-                while (j >= left && arr[j] == value - arr[i]) {
+                while (j >= lEl && arr[j] == x) {
                     count++;
                     j--;
                 }
 
                 j = mid + 1;
-                while (j <= right && arr[j] == value - arr[i]) {
+                while (j <= rEl && arr[j] == x) {
                     count++;
                     j++;
                 }
 
                 break;
-            } else if (arr[mid] < value - arr[i]) {
-                left = mid + 1;
+            } else if (arr[mid] < x) {
+                lEl = mid + 1;
             } else {
-                right = mid - 1;
+                rEl = mid - 1;
             }
         }
+
+        int current = arr[i];
+        do {
+            i++;
+        } while (i < len && arr[i] == current);
     }
     return count;
 }
