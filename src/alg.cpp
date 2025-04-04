@@ -11,43 +11,27 @@ int countPairs1(int *arr, int len, int value) {
     return count;
 }
 int countPairs2(int *arr, int len, int value) {
-    std::sort(arr, arr + len);
     int count = 0;
-    int lEl = 0;
-    int rEl = len - 1;
+    int left = 0;
+    int right = len - 1;
 
-    while (lEl < rEl) {
-        int summa = arr[lEl] + arr[rEl];
-        if (summa == value) {
-            if (arr[lEl] == arr[rEl]) {
-                int n = rEl - lEl + 1;
-                count += n * (n - 1) / 2;
-                break;
-            }
-
-            int lElCount = 1;
-            int rElCount = 1;
-
-            while (lEl + lElCount < len && arr[lEl + lElCount] == arr[lEl]) {
-                lElCount++;
-            }
-
-            while (rEl - rElCount >= 0 && arr[rEl - rElCount] == arr[rEl]) {
-                rElCount++;
-            }
-
-            count += lElCount * rElCount;
-            lEl += lElCount;
-            rEl -= rElCount;
-        } else if (summa < value) {
-            lEl++;
+    while (left < right) {
+        int sum = arr[left] + arr[right];
+        if (sum == value) {
+            count++;
+            left++;
+            right--;
+            // Пропускаем дубликаты
+            while (left < right && arr[left] == arr[left - 1]) left++;
+            while (left < right && arr[right] == arr[right + 1]) right--;
+        } else if (sum < value) {
+            left++;
         } else {
-            rEl--;
+            right--;
         }
     }
     return count;
 }
-
 int countPairs3(int *arr, int len, int value) {
     std::sort(arr, arr + len);
     int count = 0;
