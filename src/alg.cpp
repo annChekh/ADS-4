@@ -10,7 +10,6 @@ int countPairs1(int *arr, int len, int value) {
   }
   return k;
 }
-
 int countPairs2(int *arr, int len, int value) {
   int k = 0, summa lEl = 0, rEl = len - 1;
   while (lEl < rEl) {
@@ -34,7 +33,6 @@ int countPairs2(int *arr, int len, int value) {
   }
   return k;
 }
-
 int countPairs3(int *arr, int len, int value) {
     int k = 0, i = 0;
     while (i < len) {
