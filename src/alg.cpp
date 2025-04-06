@@ -13,7 +13,7 @@ int countPairs1(int *arr, int len, int value) {
     return count;
 }
 
-int kPairs2(int *arr, int len, int value) {
+int countPairs2(int *arr, int len, int value) {
   int k = 0;
   for (int i = 0; i < len; i++) {
     int lEl = i + 1;
@@ -43,7 +43,7 @@ int kPairs2(int *arr, int len, int value) {
   return k;
 }
 
-int kPairs3(int *arr, int len, int value) {
+int countPairs3(int *arr, int len, int value) {
   int k = 0;
   int lEl = 0;
   int rEl = len - 1;
