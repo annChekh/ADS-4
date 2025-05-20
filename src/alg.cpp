@@ -43,6 +43,7 @@ int countPairs2(int *arr, int len, int value) {
   return k;
 }
 
+
 int countPairs3(int *arr, int len, int value) {
   int k = 0;
   int lEl = 0;
